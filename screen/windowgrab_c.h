@@ -22,7 +22,7 @@ MMBitmapRef copyMMBitmapFromDisplayInWindow(LPCWSTR className, LPCWSTR title, MM
 	bi.bmiHeader.biClrImportant = 0;
 
 	// screen = GetDC(NULL); /* Get entire screen */
-	HWND hwnd = FindWindowW(className, title);
+	HWND hwnd = FindWindowW(0, title);
 	screen = GetDC(hwnd);
 
 	if (screen == NULL) return NULL;
