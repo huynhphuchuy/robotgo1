@@ -300,21 +300,21 @@ func CaptureScreen(args ...int) C.MMBitmapRef {
 // use `defer robotgo.FreeBitmap(bitmap)` to free the bitmap
 //
 // robotgo.CaptureScreen(x, y, w, h int)
-func CaptureWindow(args ...int) C.MMBitmapRef {
+func CaptureWindow(args ...interface{}) C.MMBitmapRef {
 	var x, y, w, h C.size_t
 	var className, title string
 
 	if len(args) > 5 {
-		className = args[0]
-		title = args[1]
-		x = C.size_t(args[2])
-		y = C.size_t(args[3])
-		w = C.size_t(args[4])
-		h = C.size_t(args[5])
+		className = args[0].(string)
+		title = args[1].(string)
+		x = C.size_t(args[2].(int))
+		y = C.size_t(args[3].(int))
+		w = C.size_t(args[4].(int))
+		h = C.size_t(args[5].(int))
 	} else {
 		// fmt.Println("err:::", e)
-		className = args[0]
-		title = args[1]
+		className = args[0].(string)
+		title = args[1].(string)
 		x = 0
 		y = 0
 		// Get screen size.
