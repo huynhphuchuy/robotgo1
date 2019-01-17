@@ -305,22 +305,14 @@ func CaptureWindow(args ...interface{}) C.MMBitmapRef {
 	var className, title string
 
 	if len(args) > 5 {
-		if (args[0] != nil) {
-			className = args[0].(string)
-		} else {
-			className = ""
-		}
+		className = args[0].(string)
 		title = args[1].(string)
 		x = C.size_t(args[2].(int))
 		y = C.size_t(args[3].(int))
 		w = C.size_t(args[4].(int))
 		h = C.size_t(args[5].(int))
 	} else {
-		if (args[0] != nil) {
-			className = args[0].(string)
-		} else {
-			className = ""
-		}
+		className = args[0].(string)
 		// fmt.Println("err:::", e)
 		className = args[0].(string)
 		title = args[1].(string)
