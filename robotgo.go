@@ -58,9 +58,8 @@ import (
 	"strings"
 	"time"
 	"unsafe"
-
-	"syscall"
 	"os/exec"
+	"unicode/utf16"
 
 	"github.com/go-vgo/robotgo/clipboard"
 	"github.com/robotn/gohook"
@@ -300,6 +299,13 @@ func CaptureScreen(args ...int) C.MMBitmapRef {
 // use `defer robotgo.FreeBitmap(bitmap)` to free the bitmap
 //
 // robotgo.CaptureScreen(x, y, w, h int)
+
+func Encode(s string) C.LPCWSTR {
+	wstr := utf16.Encode([]rune(s))
+	wstr = append(wstr, 0x00)
+	return (C.LPCWSTR)(unsafe.Pointer(&wstr[0]))
+}
+
 func CaptureWindow(args ...interface{}) C.MMBitmapRef {
 	var x, y, w, h C.size_t
 	var className, title string
@@ -313,8 +319,6 @@ func CaptureWindow(args ...interface{}) C.MMBitmapRef {
 		h = C.size_t(args[5].(int))
 	} else {
 		className = args[0].(string)
-		// fmt.Println("err:::", e)
-		className = args[0].(string)
 		title = args[1].(string)
 		x = 0
 		y = 0
@@ -325,11 +329,8 @@ func CaptureWindow(args ...interface{}) C.MMBitmapRef {
 		h = displaySize.height
 	}
 
-	windowClassNameUtf16, _ := syscall.UTF16PtrFromString(className)
-	windowTitleUtf16, _ := syscall.UTF16PtrFromString(title)
+	bit := C.capture_window(Encode(className), Encode(title), x, y, w, h)
 
-	bit := C.capture_window(C.LPCWSTR(unsafe.Pointer(windowClassNameUtf16)), C.LPCWSTR(unsafe.Pointer(windowTitleUtf16)), x, y, w, h)
-	// fmt.Println("...", bit.width)
 	return bit
 }
 

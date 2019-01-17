@@ -1,3 +1,4 @@
+#include "windowgrab.h"
 #include <stdlib.h> /* malloc() */
 #include <string.h>
 
@@ -7,6 +8,7 @@ MMBitmapRef copyMMBitmapFromDisplayInWindow(LPCWSTR className, LPCWSTR title, MM
 	HDC screen = NULL, screenMem = NULL;
 	HBITMAP dib;
 	BITMAPINFO bi;
+	HWND hwnd;
 
 	/* Initialize bitmap info. */
 	bi.bmiHeader.biSize = sizeof(bi.bmiHeader);
@@ -21,8 +23,11 @@ MMBitmapRef copyMMBitmapFromDisplayInWindow(LPCWSTR className, LPCWSTR title, MM
 	bi.bmiHeader.biClrUsed = 0;
 	bi.bmiHeader.biClrImportant = 0;
 
-	// screen = GetDC(NULL); /* Get entire screen */
-	HWND hwnd = FindWindowW(0, L"League of Legends");
+	if (!className[0]) {
+		hwnd = FindWindowW(0, title);
+	} else {
+		hwnd = FindWindowW(className, title);
+	}
     
 	screen = GetDC(hwnd);
 
