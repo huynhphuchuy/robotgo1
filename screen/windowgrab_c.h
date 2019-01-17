@@ -1,7 +1,7 @@
 #include <stdlib.h> /* malloc() */
 #include <string.h>
 
-MMBitmapRef copyMMBitmapFromDisplayInWindow(MMRect rect){
+MMBitmapRef copyMMBitmapFromDisplayInWindow(LPCWSTR className, LPCWSTR title, MMRect rect){
 	MMBitmapRef bitmap;
 	void *data;
 	HDC screen = NULL, screenMem = NULL;
@@ -22,7 +22,7 @@ MMBitmapRef copyMMBitmapFromDisplayInWindow(MMRect rect){
 	bi.bmiHeader.biClrImportant = 0;
 
 	// screen = GetDC(NULL); /* Get entire screen */
-	HWND hwnd = FindWindowW(0, L"League of Legends");
+	HWND hwnd = FindWindowW(className, title);
 	screen = GetDC(hwnd);
 
 	if (screen == NULL) return NULL;

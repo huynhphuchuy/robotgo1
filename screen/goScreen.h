@@ -112,7 +112,7 @@ MMBitmapRef capture_screen(size_t x, size_t y, size_t w, size_t h){
 }
 
 // capture_screen capture screen
-MMBitmapRef capture_window(size_t x, size_t y, size_t w, size_t h){
-	MMBitmapRef bitmap = copyMMBitmapFromDisplayInWindow(MMRectMake(x, y, w, h));
+MMBitmapRef capture_window(LPCWSTR className, LPCWSTR title, size_t x, size_t y, size_t w, size_t h){
+	MMBitmapRef bitmap = copyMMBitmapFromDisplayInWindow(className, title, MMRectMake(x, y, w, h));
 	return bitmap;
 }

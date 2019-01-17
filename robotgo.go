@@ -58,7 +58,8 @@ import (
 	"strings"
 	"time"
 	"unsafe"
-	// "syscall"
+
+	"syscall"
 	"os/exec"
 
 	"github.com/go-vgo/robotgo/clipboard"
@@ -301,14 +302,19 @@ func CaptureScreen(args ...int) C.MMBitmapRef {
 // robotgo.CaptureScreen(x, y, w, h int)
 func CaptureWindow(args ...int) C.MMBitmapRef {
 	var x, y, w, h C.size_t
+	var className, title string
 
-	if len(args) > 3 {
-		x = C.size_t(args[0])
-		y = C.size_t(args[1])
-		w = C.size_t(args[2])
-		h = C.size_t(args[3])
+	if len(args) > 5 {
+		className = args[0]
+		title = args[1]
+		x = C.size_t(args[2])
+		y = C.size_t(args[3])
+		w = C.size_t(args[4])
+		h = C.size_t(args[5])
 	} else {
 		// fmt.Println("err:::", e)
+		className = args[0]
+		title = args[1]
 		x = 0
 		y = 0
 		// Get screen size.
@@ -318,7 +324,10 @@ func CaptureWindow(args ...int) C.MMBitmapRef {
 		h = displaySize.height
 	}
 
-	bit := C.capture_window(x, y, w, h)
+	windowClassNameUtf16, _ := syscall.UTF16PtrFromString(className)
+	windowTitleUtf16, _ := syscall.UTF16PtrFromString(title)
+
+	bit := C.capture_window(C.LPCWSTR(unsafe.Pointer(windowClassNameUtf16)), C.LPCWSTR(unsafe.Pointer(windowTitleUtf16)), x, y, w, h)
 	// fmt.Println("...", bit.width)
 	return bit
 }
