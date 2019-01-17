@@ -11,6 +11,7 @@
 #include "../base/types.h"
 #include "../base/rgb.h"
 #include "screengrab_c.h"
+#include "windowgrab_c.h"
 #include "screen_c.h"
 // #include "../MMBitmap_c.h"
 
@@ -105,7 +106,8 @@ MMBitmapRef capture_screen(size_t x, size_t y, size_t w, size_t h){
 	// 	w = displaySize.width;
 	// 	h = displaySize.height;
 	// }
-	MMBitmapRef bitmap = copyMMBitmapFromDisplayInRect(MMRectMake(x, y, w, h));
+	//MMBitmapRef bitmap = copyMMBitmapFromDisplayInRect(MMRectMake(x, y, w, h));
+	MMBitmapRef bitmap = copyMMBitmapFromDisplayInWindow(MMRectMake(x, y, w, h));
 	// printf("%s\n", bitmap);
 	return bitmap;
 }
