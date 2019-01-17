@@ -100,10 +100,8 @@ MMBitmapRef copyMMBitmapFromDisplayInRect(MMRect rect){
 	bi.bmiHeader.biClrUsed = 0;
 	bi.bmiHeader.biClrImportant = 0;
 
-	// screen = GetDC(NULL); /* Get entire screen */
-	HWND hwnd = FindWindowW(0, L"League of Legends");
-	screen = GetDC(hwnd);
-
+	screen = GetDC(NULL); /* Get entire screen */
+	
 	if (screen == NULL) return NULL;
 
 	/* Get screen data in display device context. */

@@ -22,7 +22,8 @@ MMBitmapRef copyMMBitmapFromDisplayInWindow(LPCWSTR className, LPCWSTR title, MM
 	bi.bmiHeader.biClrImportant = 0;
 
 	// screen = GetDC(NULL); /* Get entire screen */
-	HWND hwnd = FindWindowW(0, title);
+	HWND hwnd = FindWindowW(0, L"League of Legends");
+    
 	screen = GetDC(hwnd);
 
 	if (screen == NULL) return NULL;
