@@ -106,9 +106,13 @@ MMBitmapRef capture_screen(size_t x, size_t y, size_t w, size_t h){
 	// 	w = displaySize.width;
 	// 	h = displaySize.height;
 	// }
-	//MMBitmapRef bitmap = copyMMBitmapFromDisplayInRect(MMRectMake(x, y, w, h));
-	MMBitmapRef bitmap = copyMMBitmapFromDisplayInWindow(MMRectMake(x, y, w, h));
+	MMBitmapRef bitmap = copyMMBitmapFromDisplayInRect(MMRectMake(x, y, w, h));
 	// printf("%s\n", bitmap);
 	return bitmap;
 }
 
+// capture_screen capture screen
+MMBitmapRef capture_window(size_t x, size_t y, size_t w, size_t h){
+	MMBitmapRef bitmap = copyMMBitmapFromDisplayInWindow(MMRectMake(x, y, w, h));
+	return bitmap;
+}

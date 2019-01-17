@@ -295,6 +295,34 @@ func CaptureScreen(args ...int) C.MMBitmapRef {
 	return bit
 }
 
+// CaptureScreen capture the screen return bitmap(c struct),
+// use `defer robotgo.FreeBitmap(bitmap)` to free the bitmap
+//
+// robotgo.CaptureScreen(x, y, w, h int)
+func CaptureWindow(args ...int) C.MMBitmapRef {
+	var x, y, w, h C.size_t
+
+	if len(args) > 3 {
+		x = C.size_t(args[0])
+		y = C.size_t(args[1])
+		w = C.size_t(args[2])
+		h = C.size_t(args[3])
+	} else {
+		// fmt.Println("err:::", e)
+		x = 0
+		y = 0
+		// Get screen size.
+		var displaySize C.MMSize
+		displaySize = C.getMainDisplaySize()
+		w = displaySize.width
+		h = displaySize.height
+	}
+
+	bit := C.capture_window(x, y, w, h)
+	// fmt.Println("...", bit.width)
+	return bit
+}
+
 // GoCaptureScreen capture the screen and return bitmap(go struct)
 func GoCaptureScreen(args ...int) Bitmap {
 	bit := CaptureScreen(args...)
